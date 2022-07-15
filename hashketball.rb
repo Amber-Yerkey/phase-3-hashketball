@@ -1,4 +1,6 @@
 # Write your code below game_hash
+require 'pry'
+
 def game_hash
   {
     home: {
@@ -127,3 +129,61 @@ def game_hash
 end
 
 # Write code here
+def get_all_players
+  game_hash[:home][:players] + game_hash[:away][:players]
+end
+
+
+def num_points_scored(player)
+  get_player = get_all_players.find do |name|
+      name[:player_name] == player
+  end
+  get_player[:points]
+end
+
+def shoe_size(player)
+  get_player = get_all_players.find do |name|
+      name[:player_name] == player
+  end
+  get_player[:shoe]
+end
+
+def helper_team(team_name)
+  find_team = game_hash.find do |home_away, team|
+      team[:team_name] == team_name
+  end
+  find_team[1]
+end
+
+def team_colors(team_name)
+  found_team = helper_team(team_name)
+  pp found_team[:colors]
+end
+
+def team_names
+  team_arr = [game_hash[:home][:team_name]]
+  team_arr << game_hash[:away][:team_name]
+end
+
+def player_numbers(team_name)
+  find_numbers = helper_team(team_name)
+  number_arr = []
+  find_numbers[:players].each do |player|
+      number_arr << player[:number]
+  end
+  pp number_arr
+end
+
+def player_stats(player_name)
+  all_players = get_all_players()
+  stats = all_players.find do |player|
+      player[:player_name] === player_name
+  end
+  stats
+end
+
+def big_shoe_rebounds
+  all_players = get_all_players()
+  big_shoe = all_players.sort_by {|player| player[:shoe]}
+  big_shoe[-1][:rebounds]
+end
